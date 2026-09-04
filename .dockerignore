@@ -1,0 +1,15 @@
+# Keep these OUT of the image (smaller, faster builds, no leaking local junk).
+venv/
+__pycache__/
+*.pyc
+*.db
+.git/
+.gitignore
+README*.txt
+*.wav
+*.mp3
+*.m4a
+voiceagent-db/
+logfile
+dump.rdb
+models/

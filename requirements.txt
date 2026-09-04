@@ -1,0 +1,22 @@
+# All dependencies for the full app (used by the Docker build and local runs).
+
+# --- web server ---
+fastapi==0.115.0
+uvicorn[standard]==0.30.6
+python-multipart==0.0.9
+
+# --- speech-to-text (needs FFmpeg system package; Dockerfile installs it) ---
+faster-whisper==1.0.3
+requests==2.32.3
+
+# --- database (PostgreSQL) ---
+sqlalchemy[asyncio]==2.0.35
+asyncpg==0.29.0
+
+# --- the LLM reply ---
+transformers==4.44.2
+torch==2.4.1
+sentencepiece==0.2.0
+
+# --- cache (Redis) ---
+redis==5.0.8

@@ -1,0 +1,52 @@
+# Stage 6 - Run the whole system with Docker (Mac)
+
+Docker Desktop must be installed and RUNNING (whale icon steady, "Engine running").
+
+================================================================
+ONE COMMAND
+================================================================
+From inside this folder (the one with docker-compose.yml):
+
+    docker compose up --build
+
+What happens:
+  - builds your app image from the Dockerfile (installs FFmpeg + Python deps)
+  - pulls the official postgres:16 and redis:7 images
+  - starts all three containers on one private network
+  - the app waits for the database to be healthy, then starts
+
+FIRST TIME is slow: it downloads base images and pip packages during build, and
+on the first /chat it downloads the Whisper + FLAN-T5 models into a volume (so
+later restarts are fast).
+
+When you see the app logs settle on "Application startup complete", open:
+    http://localhost:8000/docs
+
+================================================================
+TEST IT
+================================================================
+Same as before but the port is localhost:8000:
+  POST /chat  -> upload a short clip.wav, conversation_id 0 -> transcript + reply
+  run the SAME short clip again -> "cached": true
+  GET /conversations/{id} -> the saved turns
+
+================================================================
+USEFUL COMMANDS
+================================================================
+  docker compose up --build      start everything (rebuild image)
+  docker compose up              start (no rebuild)
+  Ctrl+C                         stop (containers remain)
+  docker compose down            remove containers (DATA PERSISTS in volumes)
+  docker compose down -v         remove containers AND wipe data volumes
+  docker compose ps              list running services
+  docker compose logs app        show just the app's logs
+
+================================================================
+WHY THIS MATTERS (interview)
+================================================================
+- A container bundles OS libs + deps + code so it runs identically anywhere.
+- docker-compose orchestrates multiple services and puts them on one network,
+  where they find each other by service name (db, redis) - that is why the app's
+  DATABASE_URL uses "@db" and REDIS_URL uses "redis" instead of localhost.
+- Named volumes persist the database and downloaded models across restarts.
+- Healthchecks + depends_on make the app wait until Postgres/Redis are ready.

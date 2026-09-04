@@ -1,0 +1,12 @@
+venv/
+__pycache__/
+*.pyc
+.env
+models/
+*.bin
+*.pt
+*.db
+voiceagent-db/
+logfile
+dump.rdb
+*.wav
