@@ -1,3 +1,6 @@
+> 🚀 **Production Starter Kit:** Want the pre-configured Docker stack, `.env.example` templates, and complete source zip for instant deployment?  
+> 👉 **[Get the Packaged Backend on Gumroad ($47)](https://abishnavi.gumroad.com/l/voice-ai-backend)**
+
 # Voice Agent Backend
 
 An asynchronous backend that ingests audio, transcribes it, generates a
