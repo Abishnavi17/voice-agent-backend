@@ -1,5 +1,6 @@
 > 🚀 **Production Starter Kit:** Want the pre-configured Docker stack, `.env.example` templates, and complete source zip for instant deployment?  
 > 👉 **[Get the Packaged Backend on Gumroad ($47)](https://abishnavi.gumroad.com/l/voice-ai-backend)**
+>👉 **[Get the Packaged Backend on Topmate(₹1,499 UPI)](https://topmate.io/abishnavi)**
 
 # Voice Agent Backend
 
