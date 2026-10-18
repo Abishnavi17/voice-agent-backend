@@ -6,13 +6,36 @@ An asynchronous FastAPI backend built for Vapi.ai voice agents. Handles real-tim
 
 ## Architecture Overview
 
-User Speech -> Vapi Platform -> Webhook POST /vapi/webhook
-                                      │
-                                      ├── Tool Calls (In-call logic & data fetch)
-                                      └── End-of-Call Report (Transcripts & Lead Qualification)
-                                              │
-                                              ▼
-                                     PostgreSQL / SQLite Database
++----------------+       +------------------+       +------------------+
+|  User (Caller) | <---> | Twilio Platform  | <---> |  Vapi.ai Engine  |
++----------------+       +------------------+       +------------------+
+                                                             |
+                                                    Real-time Webhook
+                                                    (POST /vapi/webhook)
+                                                             |
+                                                             v
+                                                    +------------------+
+                                                    | FastAPI Backend  |
+                                                    +------------------+
+                                                             |
+                                                      Database Queries
+                                                             |
+                                                             v
+                                                    +------------------+
+                                                    | PostgreSQL /     |
+                                                    | SQLite Database  |
+                                                    +------------------+
+
+---
+
+## How an Incoming Call Works (Step-by-Step Flow)
+
+1. **User Calls In:** A user calls your phone number. The call reaches Twilio and gets routed immediately to the Vapi platform.
+2. **Speech Recognition:** Vapi listens to the caller's voice and instantly converts the audio into text.
+3. **AI Reasoning:** The Vapi AI agent processes what the caller said and decides on the best response using your configured system instructions.
+4. **Backend Webhook & Tools (FastAPI):** If the AI needs to look up or store data during the call, Vapi sends a webhook request to your FastAPI server (`POST /vapi/webhook`). FastAPI processes the request, updates PostgreSQL, and returns the result back to Vapi.
+5. **Voice Response back to User:** Vapi converts the AI's textual response into realistic speech and streams the audio back through Twilio to the caller.
+6. **Call Summary & Lead Saving:** After the user hangs up, Vapi sends a final summary report to FastAPI. FastAPI extracts the full transcript and lead information, then permanently saves it into your database.
 
 ---
 
